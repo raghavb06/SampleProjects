@@ -16,49 +16,49 @@ import java.util.concurrent.TimeoutException;
 
 public class ReadWebPage {
 
-	public static void main(final String[] args) {
+    public static void main(final String[] args) {
 
-		if (args.length != 1) {
-			System.err.println("Usage: java readWebPage url");
-			return;
-		}
+        if (args.length != 1) {
+            System.err.println("Usage: java readWebPage url");
+            return;
+        }
 
-		ExecutorService executorService = Executors.newSingleThreadExecutor();
+        ExecutorService executorService = Executors.newSingleThreadExecutor();
 
-		Callable<List<String>> pageTask = new Callable<List<String>>() {
+        Callable<List<String>> pageTask = new Callable<List<String>>() {
 
-			@Override
-			public List<String> call() throws Exception {
-				List<String> lines = new ArrayList<String>();
+            @Override
+            public List<String> call() throws Exception {
+                List<String> lines = new ArrayList<String>();
 
-				URL url = new URL("http://kundansingh.com/interview/");
+                URL url = new URL("http://kundansingh.com/interview/");
 
-				HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+                HttpURLConnection connection = (HttpURLConnection) url.openConnection();
 
-				BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                BufferedReader bufferedReader = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 
-				String line = null;
+                String line = null;
 
-				while ((line = bufferedReader.readLine()) != null) {
-					lines.add(line);
-				}
-				return lines;
-			}
-		};
+                while ((line = bufferedReader.readLine()) != null) {
+                    lines.add(line);
+                }
+                return lines;
+            }
+        };
 
-		Future<List<String>> future = executorService.submit(pageTask);
+        Future<List<String>> future = executorService.submit(pageTask);
 
-		try {
-			List<String> lines = future.get(5, TimeUnit.SECONDS);
+        try {
+            List<String> lines = future.get(5, TimeUnit.SECONDS);
 
-			for (String line : lines) {
-				System.out.println(line);
-			}
-		} catch (ExecutionException ee) {
+            for (String line : lines) {
+                System.out.println(line);
+            }
+        } catch (ExecutionException ee) {
 
-			System.err.println("Callable through exception: " + ee.getMessage());
-		} catch (InterruptedException | TimeoutException exception) {
-			System.err.println("URL not responding.");
-		}
-	}
+            System.err.println("Callable through exception: " + ee.getMessage());
+        } catch (InterruptedException | TimeoutException exception) {
+            System.err.println("URL not responding.");
+        }
+    }
 }
