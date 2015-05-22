@@ -1,4 +1,4 @@
-package demo.threetier.ds.ll;
+package com.threetier.dataStructure.ll;
 
 public class Node {
 

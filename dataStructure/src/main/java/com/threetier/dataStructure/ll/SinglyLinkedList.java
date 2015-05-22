@@ -1,4 +1,4 @@
-package demo.threetier.ds.ll;
+package com.threetier.dataStructure.ll;
 
 public class SinglyLinkedList {
 
@@ -6,7 +6,7 @@ public class SinglyLinkedList {
 	private int nodeCount;
 
 	public SinglyLinkedList() {
-		head = new Node(null);
+		head = null;
 		this.nodeCount = 0;
 	}
 
@@ -15,6 +15,11 @@ public class SinglyLinkedList {
 		// create a new node to insert
 		Node newNode = new Node(data);
 
+		if (head == null) {
+			head = newNode;
+			this.nodeCount++;
+			return;
+		}
 		// hold the head in a temp reference
 		Node currentNode = head;
 
@@ -28,7 +33,7 @@ public class SinglyLinkedList {
 	}
 
 	public String printList() {
-		Node currentNode = head.getNext();
+		Node currentNode = this.head;
 		String output = "";
 		while (currentNode != null) {
 			output += "[" + currentNode.getData().toString() + "]";
@@ -38,8 +43,43 @@ public class SinglyLinkedList {
 		return output;
 	}
 
+	/**
+	 * this reverse the original list as head as links are exchanged. Reversed
+	 * list has to be reversed again to get the original list
+	 * 
+	 * @param head
+	 * @return head of the reversed list
+	 */
+	public Node reverseList(Node head) {
+
+		Node current = null;
+		Node next = null;
+
+		if (head == null) {
+			return head;
+		}
+
+		while (head != null) {
+			next = head.getNext();
+			head.setNext(current);
+			current = head;
+			head = next;
+		}
+
+		this.head = current;
+		return this.head;
+	}
+
 	public int getNodeCount() {
 		return nodeCount;
+	}
+
+	public Node getHead() {
+		return head;
+	}
+
+	public void setHead(Node head) {
+		this.head = head;
 	}
 
 }
